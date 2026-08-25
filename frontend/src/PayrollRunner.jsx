@@ -20,7 +20,7 @@ function PayrollRunner({ user }) {
     // Fetch all payroll records for this month (both Pending and Paid)
     const fetchPayroll = useCallback(async () => {
         try {
-            const response = await fetch('http://localhost:5000/api/payroll/pending-current');
+            const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/payroll/pending-current`);
             const data = await response.json();
 
             if (response.ok) {
@@ -42,7 +42,7 @@ function PayrollRunner({ user }) {
         setToast(null);
 
         try {
-            const response = await fetch('http://localhost:5000/api/payroll/run-sync', {
+            const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/payroll/run-sync`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ actionBy: 'ADMIN' })
@@ -75,7 +75,7 @@ function PayrollRunner({ user }) {
         setPayingId(payrollId);
         setToast(null);
         try {
-            const response = await fetch(`http://localhost:5000/api/payroll/mark-paid/${payrollId}`, {
+            const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/payroll/mark-paid/${payrollId}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ actionBy: 'ADMIN' })

@@ -21,7 +21,7 @@ function AttendanceModule({ user }) {
         setLoading(true);
         setError('');
         try {
-            const response = await fetch(`http://localhost:5000/api/attendance?date=${date}`);
+            const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/attendance?date=${date}`);
             const data = await response.json();
             if (data.success) {
                 setRecords(data.records);
@@ -47,7 +47,7 @@ function AttendanceModule({ user }) {
         const newStatus = currentStatus === 'Leave' ? 'Present' : 'Leave';
         console.log('[TOGGLE ATTENDANCE] Sending:', { EmpID: String(empId), Date: selectedDate, Status: newStatus });
         try {
-            const response = await fetch('http://localhost:5000/api/attendance/update', {
+            const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/attendance/update`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -89,8 +89,8 @@ function AttendanceModule({ user }) {
         try {
             const monthStr = '2026-04'; // Explicit April 2026
             const [attRes, detailsRes] = await Promise.all([
-                fetch(`http://localhost:5000/api/attendance/${emp.EmpID}/${monthStr}`),
-                fetch(`http://localhost:5000/api/employees/details/${emp.EmpID}`)
+                fetch(`${import.meta.env.VITE_API_BASE_URL}/api/attendance/${emp.EmpID}/${monthStr}`),
+                fetch(`${import.meta.env.VITE_API_BASE_URL}/api/employees/details/${emp.EmpID}`)
             ]);
             const attData = await attRes.json();
             const detailsData = await detailsRes.json();

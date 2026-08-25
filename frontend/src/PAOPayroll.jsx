@@ -25,7 +25,7 @@ function PAOPayroll({ user }) {
             const year = targetDate.getFullYear();
             const monthObj = targetDate.getMonth() + 1;
             
-            const response = await fetch('http://localhost:5000/api/payroll/generate', {
+            const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/payroll/generate`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -51,7 +51,7 @@ function PAOPayroll({ user }) {
     const handleMarkPaid = async (payrollId) => {
         setActionLoading(payrollId);
         try {
-            const response = await fetch(`http://localhost:5000/api/payroll/mark-paid/${payrollId}`, {
+            const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/payroll/mark-paid/${payrollId}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ actionBy: user?.username || user?.name || 'PAO' })

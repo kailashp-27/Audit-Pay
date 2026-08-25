@@ -10,7 +10,7 @@ const LeaveApprovals = ({ user }) => {
   const fetchPendingLeaves = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch('http://localhost:5000/api/leaves/pending');
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/leaves/pending`);
       if (res.ok) {
         const data = await res.json();
         setPendingLeaves(data);
@@ -33,7 +33,7 @@ const LeaveApprovals = ({ user }) => {
         ? `/api/leaves/approve/${leaveId}`
         : `/api/leaves/reject/${leaveId}`;
 
-      const res = await fetch(`http://localhost:5000${endpoint}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}${endpoint}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' }
       });

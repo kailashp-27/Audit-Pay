@@ -49,7 +49,7 @@ function AnalyticsDashboard({ user }) {
             setLoading(true);
             try {
                 const week = getWeekStr(weekOffset);
-                const response = await fetch(`http://localhost:5000/api/admin/analytics?startDate=${week.start}&endDate=${week.end}`);
+                const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/admin/analytics?startDate=${week.start}&endDate=${week.end}`);
                 const result = await response.json();
                 if (result.success) {
                     setData({

@@ -59,7 +59,7 @@ function AdminDashboard({ user, onLogout }) {
     const fetchStats = useCallback(async () => {
         setStatsLoading(true);
         try {
-            const response = await fetch('http://localhost:5000/api/admin/stats');
+            const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/admin/stats`);
             const data = await response.json();
             if (data.success) {
                 setStats(data.stats);
@@ -82,7 +82,7 @@ function AdminDashboard({ user, onLogout }) {
             const params = new URLSearchParams();
             if (searchQuery) params.set('query', searchQuery);
             if (deptFilter) params.set('deptId', deptFilter);
-            const response = await fetch(`http://localhost:5000/api/employees/search?${params.toString()}`);
+            const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/employees/search?${params.toString()}`);
             const data = await response.json();
             if (data.success) {
                 setEmployees(data.data);
@@ -117,7 +117,7 @@ function AdminDashboard({ user, onLogout }) {
     const handleUpdateEmployee = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch(`http://localhost:5000/api/admin/update-employee/${editingEmployee._id}`, {
+            const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/admin/update-employee/${editingEmployee._id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(editingEmployee)
@@ -145,7 +145,7 @@ function AdminDashboard({ user, onLogout }) {
     const confirmDeleteEmployee = async () => {
         if (!employeeToDelete) return;
         try {
-            const response = await fetch(`http://localhost:5000/api/admin/delete-employee/${employeeToDelete._id}`, {
+            const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/admin/delete-employee/${employeeToDelete._id}`, {
                 method: 'DELETE'
             });
             const data = await response.json();
@@ -171,7 +171,7 @@ function AdminDashboard({ user, onLogout }) {
         data.role = 'pao';
 
         try {
-            const response = await fetch(`http://localhost:5000/api/admin/add-employee`, {
+            const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/admin/add-employee`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
@@ -193,7 +193,7 @@ function AdminDashboard({ user, onLogout }) {
     const generateMockEmployee = async () => {
         setMockLoading(true);
         try {
-            const response = await fetch('http://localhost:5000/api/admin/generate-mock-employee', {
+            const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/admin/generate-mock-employee`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' }
             });
@@ -487,7 +487,7 @@ function AdminDashboard({ user, onLogout }) {
                             setBonusSubmitting(true);
                             setBonusToast(null);
                             try {
-                                const res = await fetch('http://localhost:5000/api/admin/award-bonus', {
+                                const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/admin/award-bonus`, {
                                     method: 'POST',
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({ empId: bonusEmpId, amount: Number(bonusAmount), reason: bonusReason })
@@ -519,7 +519,7 @@ function AdminDashboard({ user, onLogout }) {
                                         onFocus={async () => {
                                             if (bonusEmployees.length === 0) {
                                                 try {
-                                                    const res = await fetch('http://localhost:5000/api/admin/employees-for-bonus');
+                                                    const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/admin/employees-for-bonus`);
                                                     const data = await res.json();
                                                     if (data.success) setBonusEmployees(data.employees);
                                                 } catch (err) { console.error(err); }

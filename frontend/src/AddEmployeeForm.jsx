@@ -42,7 +42,7 @@ function AddEmployeeForm({ onSuccess }) {
     setError(null);
 
     try {
-      const response = await axios.post('http://localhost:5000/api/admin/add-employee', formData);
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/admin/add-employee`, formData);
       
       if (response.data.success) {
         onSuccess(response.data.message || 'Employee added successfully!');

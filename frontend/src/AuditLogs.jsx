@@ -13,7 +13,7 @@ function AuditLogs({ user }) {
     const fetchLogs = async () => {
         try {
             const roleQuery = user?.role ? `?role=${user.role}` : '';
-            const response = await fetch(`http://localhost:5000/api/admin/audit-logs${roleQuery}`);
+            const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/admin/audit-logs${roleQuery}`);
             const data = await response.json();
             if (data.success) {
                 const humanLogs = data.logs.filter(log => !log.ActionType.includes('SYNC_HISTORICAL_PAYROLL'));

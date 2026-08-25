@@ -30,7 +30,7 @@ function LoginPage({ role, onBack, onLoginSuccess }) {
         // e.g., /api/register or /api/login
         // For now, we reuse the mock login endpoint to test the connection.
         try {
-            const response = await fetch('http://localhost:5000/api/login', {
+            const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
