@@ -1,142 +1,78 @@
-# 🛡️ AuditPay
+# AuditPay
 
-**A Secure Payroll Management & Financial Audit System**
+A payroll and attendance app built as a DBMS course project at VIT Chennai. It brings employee records, leave requests, payroll calculations, and activity logs into one interface.
 
-AuditPay is a full-stack web application developed as a comprehensive Database Management System (DBMS) college project for the B.Tech Artificial Intelligence and Robotics curriculum at VIT Chennai. It is designed to automate corporate payroll, manage daily attendance, and maintain an immutable financial audit trail.
+The frontend uses React and Vite, with Recharts for the dashboard. The API is built with Express and stores data in MongoDB through Mongoose.
 
-Built with the MERN stack, it features a strict three-tier role hierarchy separating administrative control, operational execution, and employee self-service.
+## What you can do
 
-**Developed by:** KAILASH P (24BRS1382)
+| Role | Main workflow |
+| --- | --- |
+| Admin | Manage employees, review leave requests, view analytics and activity logs |
+| Payroll & Attendance Officer | Record attendance, generate payroll, and mark payments as paid |
+| Employee | View attendance and salary history, request leave, and review payslips |
 
----
+The app also includes sample employee generation and historical payroll synchronisation for demonstrations.
 
-## 🚀 Tech Stack
+## Run locally
 
-- **Frontend:** React.js (Vite), Tailwind CSS / CSS Modules (Enterprise Dark Mode UI), Recharts (Data Visualization)
-- **Backend:** Node.js, Express.js
-- **Database:** MongoDB & Mongoose (Database: AuditPay)
-- **Authentication:** JSON Web Tokens (JWT), bcryptjs
-- **Tools:** Git, html2pdf.js / react-to-pdf
+Use Node.js 22.12+ and a running MongoDB instance.
 
----
-
-## 📁 Project Structure
-
-```plaintext
-.
-├── backend/                  # Node.js API server
-│   ├── models/               # MongoDB schemas
-│   ├── routes/               # Express endpoints
-│   ├── server.js             # API entrypoint
-│   ├── package.json
-│   └── .env                  # excluded via .gitignore
-├── frontend/                 # React application
-│   ├── src/
-│   │   ├── components/       # UI components
-│   │   ├── App.jsx
-│   │   ├── main.jsx
-│   │   └── index.css         # Global styles
-│   ├── package.json
-│   └── vite.config.js
-└── README.md                 # You are here
+```bash
+git clone https://github.com/kailashp-27/Audit-Pay.git
+cd Audit-Pay/backend
+npm install
 ```
 
----
+Create `backend/.env`:
 
-## 🧰 Prerequisites
+```env
+MONGO_URI=mongodb://127.0.0.1:27017/Audit_Payn
+PORT=5000
+```
 
-- Node.js (>= 16.x)
-- MongoDB (Local instance or MongoDB Atlas URI)
-- `npm` or `yarn` package manager
+Start the API from `backend/`:
 
----
+```bash
+node server.js
+```
 
-## ⚙️ Running Locally
+Create `frontend/.env` with the API address used by the login screen:
 
-### Backend
+```env
+VITE_API_BASE_URL=http://localhost:5000
+```
 
-1. Open a terminal and navigate to the backend directory:
-   ```bash
-   cd backend
-   ```
-2. Install Node dependencies:
-   ```bash
-   npm install
-   ```
-3. Set environment variables by creating a `.env` file in the backend directory:
-   ```env
-   PORT=5000
-   MONGO_URI=your_mongodb_connection_string
-   JWT_SECRET=your_super_secret_key
-   ```
-4. Run the API server:
-   ```bash
-   npm run dev
-   ```
+In another terminal, from the repository root:
 
-### Frontend
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
-1. Open a new terminal window and navigate to the frontend directory:
-   ```bash
-   cd frontend
-   ```
-2. Install Node dependencies:
-   ```bash
-   npm install
-   ```
-3. Start the Vite development server:
-   ```bash
-   npm run dev
-   ```
-4. Open your browser at `http://localhost:5173` (or the port Vite reports).
+Open [localhost:5173](http://localhost:5173). The frontend expects the API on port 5000.
 
----
+For a local demonstration, the admin login is username `ADMIN` and password `ADMIN`. Employee and PAO accounts can be added through the app.
 
-## 💡 Key Features
+## Payroll rules
 
-### 🔴 Admin (Supreme Command)
-- **System Configuration:** Dynamically control global financial policies (Tax and PF percentages).
-- **Leave Command Center:** Approve or reject employee leave requests.
-- **Advanced Analytics:** View real-time system insights via Recharts.
-- **Employee Management:** Complete CRUD access for the database and mock data generation.
-- **Master Audit Access:** View the unrestricted, system-wide Audit Log.
-
-### 🟡 Payroll & Attendance Officer (PAO)
-- **Operational Attendance:** Track and update daily employee attendance.
-- **Automated Payroll Runner:** Generate monthly payrolls based on automated leave deductions.
-- **Financial Disbursement:** Review pending payrolls and mark them as "Paid".
-- **Filtered Logs:** View domain-specific audit logs.
-
-### 🟢 Employee (Self-Service Portal)
-- **Dashboard Overview:** View current base salary, monthly leaves, and estimated net pay.
-- **Attendance & Leaves:** View personal attendance history and submit date-ranged leave requests.
-- **Salary History:** Access finalized payslips and download them instantly as PDF documents.
-
----
-
-## 🧮 The Financial Logic Engine
-
-The DBMS incorporates an automated math engine for financial accuracy:
-
-- **Daily Rate:** `Base Salary / 30`
-- **Leave Deductions:** `Days on Leave * Daily Rate`
-- **Standard Taxation:** Strictly 10% of Base Salary.
-- **Provident Fund (PF):** Strictly 5% of Base Salary (if PF is active).
+The demonstration uses a daily rate of `BaseSalary / 30`, a 10% tax deduction, and a 5% provident fund deduction for employees with PF enabled. Leave deductions and bonuses are included where applicable.
 
 ```text
-NetPay = BaseSalary - LeaveDeductions - Tax - PF
+Net pay = Base salary - Leave deductions - Tax - PF + Bonus
 ```
 
----
+These are project rules, not a complete payroll policy.
 
-## 📦 Deployment
+## Code guide
 
-- **Build frontend:** Run `npm run build` in the frontend directory (outputs to `dist/`).
-- **Backend:** Can be deployed to any Node.js-compatible host (e.g., Render, Railway, Heroku) with MongoDB Atlas acting as the cloud database.
+- `backend/server.js` contains the API routes and payroll calculations.
+- `backend/models/` defines employee, attendance, leave, payroll, and log records.
+- `frontend/src/` contains the role dashboards and management screens.
 
----
+From `frontend/`, run `npm run build` to create a production bundle or `npm run lint` to check the frontend.
 
-## 📝 Notes
+## Current scope
 
-- Ensure all `.env` files are added to `.gitignore` before pushing to any public repository.
-- To clear duplicate key errors in MongoDB during testing, ensure `LeaveID_1` or similar outdated unique indexes are manually dropped via MongoDB Compass.
+This is a coursework prototype. The login endpoint returns demo tokens, and the admin credentials are fixed in the code. Role-specific screens and stored activity logs should not be treated as production authentication or tamper-proof auditing.
